@@ -1,7 +1,7 @@
 ;;; auto-complete-auctex.el --- auto-completion for auctex
 
 ;; Copyright (C) 2012 Christopher Monsanto
-     
+
 ;; Author: Christopher Monsanto <chris@monsan.to>
 ;; Version: 1.0
 
@@ -96,7 +96,7 @@
 ;;
 
 (defun ac-auctex-expand-args (str env)
-  (yas/expand-snippet (ac-auctex-macro-snippet (assoc-default str env))))
+  (yas-expand-snippet (ac-auctex-macro-snippet (assoc-default str env))))
 
 (defun ac-auctex-macro-snippet (arg-info)
   (let ((count 1))
@@ -114,7 +114,7 @@
     (all-completions ac-prefix comlist)))
 
 (defun ac-auctex-macro-action ()
-  (yas/expand-snippet (ac-auctex-macro-snippet (assoc-default candidate TeX-symbol-list)))) 
+  (yas-expand-snippet (ac-auctex-macro-snippet (assoc-default candidate TeX-symbol-list))))
 
 (ac-define-source auctex-macros
   '((init . TeX-symbol-list)
@@ -136,10 +136,10 @@
   (if (texmathp)
       (progn
 	(insert "\\" candidate)
-	(yas/expand-snippet (ac-auctex-macro-snippet (assoc-default candidate TeX-symbol-list))))
+	(yas-expand-snippet (ac-auctex-macro-snippet (assoc-default candidate TeX-symbol-list))))
     (insert "$\\" candidate "$")
     (backward-char)
-    (yas/expand-snippet (ac-auctex-macro-snippet (assoc-default candidate TeX-symbol-list)))))
+    (yas-expand-snippet (ac-auctex-macro-snippet (assoc-default candidate TeX-symbol-list)))))
 
 (defun ac-auctex-symbol-document (c)
   (let* ((cl (assoc c (mapcar 'cdr LaTeX-math-default)))
@@ -173,10 +173,10 @@
   (re-search-backward candidate)
   (delete-region (1- (match-beginning 0)) (match-end 0))
   (let ((candidate (substring candidate (length ac-auctex-environment-prefix))))
-    (yas/expand-snippet (format "\\begin{%s}%s\n$0\n\\end{%s}"
+    (yas-expand-snippet (format "\\begin{%s}%s\n$0\n\\end{%s}"
 				candidate
 				(ac-auctex-macro-snippet (assoc-default candidate LaTeX-environment-list))
-				candidate)))) 
+				candidate))))
 
 (ac-define-source auctex-environments
   '((init . LaTeX-environment-list)
@@ -203,7 +203,7 @@
 
 
 ;; Bibs
-;;  
+;;
 
 (defun ac-auctex-bib-candidates ()
   (all-completions ac-prefix (mapcar 'car LaTeX-bibitem-list)))
@@ -239,9 +239,3 @@
 (provide 'auto-complete-auctex)
 
 ;;; auto-complete-auctex.el ends here
-
-
-
-
-
-
